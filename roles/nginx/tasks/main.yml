@@ -1,5 +1,14 @@
 ---
-- name: install nginx 
-  apt: name=nginx state=present
+# tasks file for nginx
+- name: Install required software
+  apt: name={{ item }} state=present
+  sudo: yes
+  with_items:
+    - nginx
+
+- name: Copy virtualhost file
+  copy: src=files/default
+        dest=/etc/nginx/sites-available/default
+
   notify:
-      - start nginx
+    - restart nginx

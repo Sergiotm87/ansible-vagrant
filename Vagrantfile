@@ -11,7 +11,7 @@ N = 2
 (1..N).each do |machine_id|
   config.vm.define "nodo#{machine_id}" do |machine|
     machine.vm.hostname = "nodo#{machine_id}"
-    machine.vm.network :public_network,:bridge=>"br0"
+    machine.vm.network :public_network,:bridge=>"wlp2s0"
     #machine.vm.network :public_network,ip: "192.168.1.20#{machine_id}"
     # Only execute once the Ansible provisioner,
     # when all the machines are up and ready.

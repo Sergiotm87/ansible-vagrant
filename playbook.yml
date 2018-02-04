@@ -1,6 +1,17 @@
 ---
+# se recolectan los facts del nodo2 al principio para poder rellenar las plantillas de nodo1
+- hosts: web
+  name: Collect facts
+  tasks: [ ]
+
 - hosts: db-dns
   become: true
+  tasks:
+
+   - name: Copy resolv.conf
+     copy:
+       src=nodo1.resolv.conf
+       dest=/etc/resolv.conf
 
   roles:
       - server
@@ -9,12 +20,18 @@
 
 - hosts: web
   become: true
+  tasks:
 
-  handlers:
-    - name: start nginx
-      service: name=nginx state=started
+   - name: Generate resolv.confs
+     template:
+       src=nodo2.resolv.conf.j2
+       dest=/etc/resolv.conf
+
+   - debug:
+       msg: "Ip del DNS: {{ hostvars['nodo1']['ansible_eth1']['ipv4']['address'] }}, Nombre de la web: wordpress.example.com"
 
   roles:
       - server
       - nginx
-      - fpm
+      - php
+      - wordpress
