@@ -1,0 +1,19 @@
+---
+# tasks file for php
+- name: Install php extensions
+  apt: name={{ item }} state=present
+  with_items:
+    - php7.0
+    - php7.0-mysql
+    - php7.0-fpm
+
+- name: Update php7-fpm config file
+  lineinfile:
+    dest=/etc/php/7.0/fpm/php.ini
+    regexp="{{ item.regexp }}"
+    line="{{ item.line }}"
+  with_items:
+    - {'regexp': ";cgi.fix_pathinfo=1", 'line': "cgi.fix_pathinfo=0"}
+
+  notify:
+    - restart php7-fpm
