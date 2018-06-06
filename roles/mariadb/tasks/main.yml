@@ -11,7 +11,7 @@
   mysql_db: name={{ wp_mysql_db }} state=present
 
 - name: Create mysql user
-  mysql_user: 
+  mysql_user:
     name={{ wp_mysql_user }}
     password={{ wp_mysql_password }}
     priv={{ wp_mysql_db }}.*:ALL
@@ -21,12 +21,12 @@
 #se elimina en lugar de colocar una direccion de escucha (por las ips dinamicas)
 - name: Allow external connections
   sudo: yes
-  lineinfile: 
+  lineinfile:
     dest=/etc/mysql/mariadb.conf.d/50-server.cnf
     regexp="^bind-address"
     line="#bind-addres="
 
-- name: Restart mariadb
-  systemd:
-    name=mariadb
-    state=restarted
+# - name: Restart mariadb
+#   systemd:
+#     name=mariadb
+#     state=restarted
