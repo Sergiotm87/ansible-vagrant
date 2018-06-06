@@ -7,7 +7,9 @@ $TTL    86400
                         600 )   ; Negative Cache
 $ORIGIN example.com.
 @         IN    NS      nodo1.example.com.
-nodo1     IN    A       {{ hostvars['web']['ansible_eth1']['ipv4']['address'] }}
-nodo2     IN    A       {{ hostvars['db-dns']['ansible_eth1']['ipv4']['address'] }}
+#nodo1     IN    A       {{ hostvars['web']['ansible_eth1']['ipv4']['address'] }}
+nodo1     IN    A       {{ hostvars[groups['web'][0]]['ansible_ec2_instance_id'] }}
+#nodo2     IN    A       {{ hostvars['db-dns']['ansible_eth1']['ipv4']['address'] }}
+nodo2     IN    A       {{ hostvars[groups['db-dns'][0]]['ansible_ec2_instance_id'] }}
 mariadb   IN    CNAME   nodo1
 wordpress IN    CNAME   nodo2
