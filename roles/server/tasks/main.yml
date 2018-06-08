@@ -1,3 +1,6 @@
 ---
 - name: apt update
   apt: update_cache=yes
+
+- name: galaxy roles requirements
+  command: ansible-galaxy install git+https://github.com/geerlingguy/ansible-role-docker.git,v2.4.2
