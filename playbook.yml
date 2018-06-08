@@ -1,5 +1,5 @@
 ---
-- hosts: web
+- hosts: node1
   name: Collect facts
   tasks: [ ]
 
