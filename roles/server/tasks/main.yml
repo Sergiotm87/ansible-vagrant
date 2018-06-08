@@ -2,5 +2,13 @@
 - name: apt update
   apt: update_cache=yes
 
-- name: galaxy roles requirements
-  command: ansible-galaxy install git+https://github.com/geerlingguy/ansible-role-apache.git,0b7cd353c0250e87a26e0499e59e7fd265cc2f25
+- name: detect requirements.yml
+  stat:
+  path: "{{project_path|quote}}/roles/requirements.yml"
+  register: doesRequirementsExist
+
+- name: fetch galaxy roles from requirements.yml
+  command: ansible-galaxy install -r requirements.yml -p {{project_path|quote}}/roles/ --force
+    args:
+    chdir: "{{project_path|quote}}/roles"
+    when: doesRequirementsExist.stat.exists
