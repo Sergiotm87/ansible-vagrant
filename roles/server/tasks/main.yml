@@ -1,14 +1,15 @@
 ---
+  #https://github.com/ansible/awx/issues/465
 - name: apt update
   apt: update_cache=yes
 
-- name: detect requirements.yml
-  stat:
-    path: "{{playbook_dir}}/requirements.yml"
-  register: doesRequirementsExist
+# - name: detect requirements.yml
+#   stat:
+#     path: "{{playbook_dir}}/requirements.yml"
+#   register: doesRequirementsExist
 
 - name: fetch galaxy roles from requirements.yml
   command: ansible-galaxy install -r requirements.yml -p {{playbook_dir}} --force
   args:
     chdir: "{{playbook_dir}}"
-  when: doesRequirementsExist.stat.exists
+  #when: doesRequirementsExist.stat.exists
