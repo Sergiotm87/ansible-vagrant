@@ -1,6 +1,0 @@
-zone "example.com" {
-	type master;
-	file "/var/cache/bind/example.com";
-	forwarders {
-	};
-};
