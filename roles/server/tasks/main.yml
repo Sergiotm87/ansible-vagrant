@@ -4,11 +4,11 @@
 
 - name: detect requirements.yml
   stat:
-  path: "../../roles/requirements.yml"
+  path: "{{project_path|quote}}/roles/requirements.yml"
   register: doesRequirementsExist
 
 - name: fetch galaxy roles from requirements.yml
-  command: ansible-galaxy install -r requirements.yml -p ../../roles/ --force
-    args:
-    chdir: "{{project_path|quote}}/roles"
-    when: doesRequirementsExist.stat.exists
+  command: ansible-galaxy install -r requirements.yml -p {{project_path|quote}}/roles/ --force
+  args:
+  chdir: "{{project_path|quote}}/roles"
+  when: doesRequirementsExist.stat.exists
